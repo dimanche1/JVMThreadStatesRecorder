@@ -9,8 +9,8 @@ Command line parameters:
 
 Endpoints:
 
-// Configure a connection to the InfluxDB
-POST /InfluxDbConfiguration 
+// Configure a connection to the InfluxDB\n
+POST /InfluxDbConfiguration\n 
 body: {
 "influxdbUrl":"http://127.0.0.1:8086",
 "influxdbDb":"jvm_app_monitoring"
