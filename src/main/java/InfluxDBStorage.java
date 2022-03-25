@@ -14,7 +14,7 @@ public class InfluxDBStorage {
     private String db;
     private int influxdbBatchSize = 1000;
     private int influxdbBatchTimeSeconds = 10;
-    private Map<String, String> additionalTags = new LinkedHashMap<>();
+//    private Map<String, String> additionalTags = new LinkedHashMap<>();
 
     public InfluxDBStorage(String serverURL, String db) {
         this.serverURL = serverURL;
@@ -49,7 +49,7 @@ public class InfluxDBStorage {
             influxDB.write(Point.measurement("thread_state")
                     .time(threadStateContainer.getTime(), TimeUnit.MILLISECONDS)
                     .tag(threadStateContainer.getTags())
-                    .tag(additionalTags)
+//                    .tag(additionalTags)
                     .fields(threadStateContainer.getFields())
                     .build());
         } catch (InfluxDBIOException ie) {
@@ -62,13 +62,13 @@ public class InfluxDBStorage {
         influxDB.close();
     }
 
-    public Map<String, String> getAdditionalTagsTags() {
-        return additionalTags;
-    }
-
-    public void setAdditionalTagsTag(String name, String value) {
-        additionalTags.put(name, value);
-    }
+//    public Map<String, String> getAdditionalTagsTags() {
+//        return additionalTags;
+//    }
+//
+//    public void setAdditionalTagsTag(String name, String value) {
+//        additionalTags.put(name, value);
+//    }
 
     public int getInfluxdbBatchSize() {
         return influxdbBatchSize;

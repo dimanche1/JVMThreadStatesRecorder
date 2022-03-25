@@ -11,7 +11,7 @@ public class JVMThreadStateRecorder {
         if(db == null) {
             db = new InfluxDBStorage(influxDbConfiguration.getInfluxdbUrl(), influxDbConfiguration.getInfluxdbDb());
 
-            db.setAdditionalTagsTag("host", "localhozzzt");
+//            db.setAdditionalTagsTag("host", "localhozzzt");
 
             return "InfluxDB connection to " + influxDbConfiguration.getInfluxdbUrl() + " established";
         } else {

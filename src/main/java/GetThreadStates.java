@@ -47,8 +47,14 @@ public class GetThreadStates implements Runnable{
 
             ArrayList<ThreadStateContainer> threadList = ts.getThreadStates(configuration.getThreadFilter());
             for (ThreadStateContainer threadListElement : threadList) {
+                if (configuration.getPid() != null) {
+                    threadListElement.setTag("pid", configuration.getPid());
+                } else {
+                    threadListElement.setTag("jmx_host", configuration.getJmxHost());
+                    threadListElement.setTag("jmx_port", String.valueOf(configuration.getJmxPort()));
+                }
+
                 db.write(threadListElement);
-//                threadListElement.setTag(additioonal tags);
             }
             try {
                 long afterTime = System.currentTimeMillis();
