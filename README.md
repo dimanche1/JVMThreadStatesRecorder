@@ -6,7 +6,10 @@ Purpose of the JVMThreadStatesRecorder is to write JVM thread states (like runna
 
 
 ## Command line parameters:  
-7080 (a port to start web server; a default port: 7070) http://127.0.0.1:8086 (an url to the InfluxDB; optional) jvm_app_monitoring (DB name in the Influxdb; optional)
+7080 http://127.0.0.1:8086 jvm_app_monitoring  
+1. 7080 (a port to start web server; a default port: 7070)
+2.  http://127.0.0.1:8086 (an url to the InfluxDB; optional) 
+3.  jvm_app_monitoring (DB name in the Influxdb; optional)
 
 ## Endpoints
 
