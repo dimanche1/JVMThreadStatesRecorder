@@ -9,29 +9,46 @@ Command line parameters:
 
 ## Endpoints:
 
-// Configure a connection to the InfluxDB  
+- #### Configure a connection to the InfluxDB  
 POST /InfluxDbConfiguration  
-body: {  
+body:
+```json
+{  
 "influxdbUrl":"http://127.0.0.1:8086",  
-"influxdbDb":"jvm_app_monitoring"  
-}  
-  
-// Start monitoring an application with a pid  
+"influxdbDb":"jvm_app_monitoring",  
+"influxdbMeasurement":"jvm_thread_states_1",  
+"influxdbBatchSize":"1000",  
+"influxdbBatchTime":"10"  
+}
+```
+"influxdbDb":"jvm_app_monitoring",  *(db should be existed)*  
+"influxdbMeasurement":"jvm_thread_states_1",  *(optional, default: thread_states)*  
+"influxdbBatchSize":"1000",  *(optional, default: 1000)*  
+"influxdbBatchTime":"10"  *(optional, default: 10)* 
+
+- #### Start monitoring an application with a pid  
 POST /start  
-body: {  
+body:
+```json
+{  
 "pid":"44620",  
 "threadFilter":"Example"  
 }  
+```
+"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
 response: id of the task that can be used for stopping the task  
   
-// Start monitoring an application with a jmx host and a jmx port  
+- #### Start monitoring an application with a jmx host and a jmx port  
 POST /start  
-body: {  
+body:
+```json
+{  
 "jmxHost":"127.0.0.1",  
 "jmxPort":"9010",  
 "threadFilter":"Example"  
 }  
+```
 response: id of the task that can be used for stopping the task  
   
-// Stop the task with an id  
+- #### Stop the task with an id  
 GET /stop/id={id of the task}  
