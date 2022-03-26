@@ -37,7 +37,6 @@ public class ThreadState {
                 threadStateContainer.setTime(System.currentTimeMillis());
                 threadStateContainer.setTag("id", String.valueOf(ti.getThreadId()));
                 threadStateContainer.setTag("name", ti.getThreadName());
-                threadStateContainer.setField("state", ti.getThreadState().toString());
                 threadStateContainer.setField("state", getThreadStateInt(ti.getThreadState().toString()));
 
                 tsc.add(threadStateContainer);
