@@ -7,7 +7,7 @@ Purpose of the JVMThreadStatesRecorder is to write JVM thread states (like runna
 Command line parameters:
 7080 (a port to start web server; a default port: 7070) http://127.0.0.1:8086 (an url to the InfluxDB; optional) jvm_app_monitoring (DB name in the Influxdb; optional)
 
-## Endpoints:
+## Endpoints
 
 - #### Configure a connection to the InfluxDB  
 POST /InfluxDbConfiguration  
@@ -52,3 +52,16 @@ response: id of the task that can be used for stopping the task
   
 - #### Stop the task with an id  
 GET /stop/id={id of the task}  
+
+
+## Grafana configuration  
+
+- #### Visaulization: State timeline
+
+- #### Possible query  
+![image](https://user-images.githubusercontent.com/79479018/160241944-03c1b717-69c8-42be-afd5-b1e65a025a09.png)  
+
+- #### Value mappings  
+![image](https://user-images.githubusercontent.com/79479018/160242159-ab79b34a-6213-4728-ab64-8193456e6795.png)
+
+
