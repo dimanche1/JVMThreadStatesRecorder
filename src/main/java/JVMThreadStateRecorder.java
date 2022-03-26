@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +22,14 @@ public class JVMThreadStateRecorder {
         return counter;
     }
 
-    public void stop(int JVMThreadStateRecorderID) throws IOException {
-        if (recorders.containsKey(JVMThreadStateRecorderID)) {
-            recorders.get(JVMThreadStateRecorderID).stop();
-            recorders.remove(JVMThreadStateRecorderID);
+    public String stop(int jvmThreadStateRecorderID) {
+        if (recorders.containsKey(jvmThreadStateRecorderID)) {
+            recorders.get(jvmThreadStateRecorderID).stop();
+            recorders.remove(jvmThreadStateRecorderID);
             --counter;
+            return "Task with id " + jvmThreadStateRecorderID + " stopped.";
+        } else {
+            return "Task with id " + jvmThreadStateRecorderID + " doesn't exist.";
         }
     }
 }

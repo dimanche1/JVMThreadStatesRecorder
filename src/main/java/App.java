@@ -35,7 +35,9 @@ public class App {
         });
 
         app.get("/stop/id={id}", ctx -> {
-            jvmThreadStateRecorder.stop(Integer.parseInt(ctx.pathParam("id")));
+            String response = jvmThreadStateRecorder.stop(Integer.parseInt(ctx.pathParam("id")));
+
+            ctx.result(response);
         });
     }
 }
