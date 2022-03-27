@@ -79,7 +79,11 @@ response:
   },  
   ...
 }    
-```
+```  
+
+- #### Returns connection configuration to the InfluxDB  
+GET /dbconfig 
+
 
 ## Grafana configuration  
 
