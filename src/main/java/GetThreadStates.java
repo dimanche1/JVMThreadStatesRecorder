@@ -54,6 +54,8 @@ public class GetThreadStates implements Runnable{
                     threadListElement.setTag("jmx_port", String.valueOf(configuration.getJmxPort()));
                 }
 
+                configuration.getTags().forEach((k, v) -> threadListElement.setTag(k, v));
+
                 db.write(threadListElement);
             }
             try {
