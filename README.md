@@ -46,7 +46,7 @@ body:
 ```
 response: id of the task that can be used for stopping the task  
 "threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
-"tags":{....} *optional, additional tags for enriching data in the InfluxDB*
+"tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*
 
 - #### Start monitoring an application with a pid  
 POST /start  
@@ -61,9 +61,9 @@ body:
 }  
 }  
 ```
-"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
-"tags":{....} *optional, additional tags for enriching data in the InfluxDB*
 response: id of the task that can be used for stopping the task  
+"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
+"tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*  
 
 - #### Stop the task with an id  
 GET /stop/id={id of the task}  
