@@ -39,5 +39,9 @@ public class App {
 
             ctx.result(response);
         });
+
+        app.get("/tasks", ctx -> {
+            ctx.result(jvmThreadStateRecorder.tasks());
+        });
     }
 }

@@ -1,3 +1,7 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,5 +35,13 @@ public class JVMThreadStateRecorder {
         } else {
             return "Task with id " + jvmThreadStateRecorderID + " doesn't exist.";
         }
+    }
+
+    public String tasks() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Integer, Configuration> tasks = new HashMap<>();
+        recorders.forEach((k, v) -> tasks.put(k, v.getConfiguration()));
+
+        return  mapper.writeValueAsString(tasks);
     }
 }

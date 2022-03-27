@@ -45,16 +45,16 @@ public class GetThreadStates implements Runnable{
         while (isRunning()) {
             long beforeTime = System.currentTimeMillis();
 
-            ArrayList<ThreadStateContainer> threadList = ts.getThreadStates(configuration.getThreadFilter());
+            ArrayList<ThreadStateContainer> threadList = ts.getThreadStates(getConfiguration().getThreadFilter());
             for (ThreadStateContainer threadListElement : threadList) {
-                if (configuration.getPid() != null) {
-                    threadListElement.setTag("pid", configuration.getPid());
+                if (getConfiguration().getPid() != null) {
+                    threadListElement.setTag("pid", getConfiguration().getPid());
                 } else {
-                    threadListElement.setTag("jmx_host", configuration.getJmxHost());
-                    threadListElement.setTag("jmx_port", String.valueOf(configuration.getJmxPort()));
+                    threadListElement.setTag("jmx_host", getConfiguration().getJmxHost());
+                    threadListElement.setTag("jmx_port", String.valueOf(getConfiguration().getJmxPort()));
                 }
 
-                configuration.getTags().forEach((k, v) -> threadListElement.setTag(k, v));
+                getConfiguration().getTags().forEach((k, v) -> threadListElement.setTag(k, v));
 
                 db.write(threadListElement);
             }
@@ -92,14 +92,18 @@ public class GetThreadStates implements Runnable{
     }
 
     public void connectByPid() {
-        server = mBeanConnection.getServerConnectionByPID(configuration.getPid());
+        server = mBeanConnection.getServerConnectionByPID(getConfiguration().getPid());
     }
 
     public void connectByJmxRemote() {
-        server = mBeanConnection.getServerConnectionRemote(configuration.getJmxHost(), configuration.getJmxPort());
+        server = mBeanConnection.getServerConnectionRemote(getConfiguration().getJmxHost(), getConfiguration().getJmxPort());
     }
 
     public ExecutorService getExec() {
         return exec;
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
     }
 }
