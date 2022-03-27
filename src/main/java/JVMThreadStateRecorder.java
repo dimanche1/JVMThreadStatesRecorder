@@ -1,17 +1,20 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JVMThreadStateRecorder {
     private InfluxDBStorage db;
+    private InfluxDbConfiguration influxDbConfiguration;
+    private ObjectMapper mapper = new ObjectMapper();
     private Map<Integer, GetThreadStates> recorders = new HashMap<>();
     private int counter = 0;
 
     public String dbConfiguration(InfluxDbConfiguration influxDbConfiguration) {
         if(db == null) {
+            this.influxDbConfiguration = influxDbConfiguration;
+
             db = new InfluxDBStorage(influxDbConfiguration);
 
             return "InfluxDB connection to " + influxDbConfiguration.getInfluxdbUrl() + " established";
@@ -38,10 +41,13 @@ public class JVMThreadStateRecorder {
     }
 
     public String tasks() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         Map<Integer, Configuration> tasks = new HashMap<>();
         recorders.forEach((k, v) -> tasks.put(k, v.getConfiguration()));
 
         return  mapper.writeValueAsString(tasks);
+    }
+
+    public String getDbConfig() throws JsonProcessingException {
+        return mapper.writeValueAsString(influxDbConfiguration);
     }
 }
