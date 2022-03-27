@@ -68,6 +68,18 @@ response: id of the task that can be used for stopping the task
 - #### Stop the task with an id  
 GET /stop/id={id of the task}  
 
+- #### List of currently running tasks  
+GET /tasks  
+response:
+```
+{  
+  (id of the task):  
+  {  
+    (Configuration object of the task)  
+  },  
+  ...
+}    
+```
 
 ## Grafana configuration  
 
