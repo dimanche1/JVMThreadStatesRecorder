@@ -29,18 +29,6 @@ body:
 "influxdbMeasurement":"jvm_thread_states_1",  *(optional, default: thread_states)*  
 "influxdbBatchSize":"1000",  *(optional, default: 1000)*  
 "influxdbBatchTime":"10"  *(optional, default: 10)* 
-
-- #### Start monitoring an application with a pid  
-POST /start  
-body:
-```json
-{  
-"pid":"44620",  
-"threadFilter":"Example"  
-}  
-```
-"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
-response: id of the task that can be used for stopping the task  
   
 - #### Start monitoring an application with a jmx host and a jmx port  
 POST /start  
@@ -50,10 +38,33 @@ body:
 "jmxHost":"127.0.0.1",  
 "jmxPort":"9010",  
 "threadFilter":"Example"  
+"tags":{  
+"tag1":"value1",  
+"tag2":"value2"  
+}  
 }  
 ```
 response: id of the task that can be used for stopping the task  
-  
+"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
+"tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*
+
+- #### Start monitoring an application with a pid  
+POST /start  
+body:
+```json
+{  
+"pid":"44620",  
+"threadFilter":"Example",  
+"tags":{  
+"tag1":"value1",  
+"tag2":"value2"  
+}  
+}  
+```
+response: id of the task that can be used for stopping the task  
+"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
+"tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*  
+
 - #### Stop the task with an id  
 GET /stop/id={id of the task}  
 
