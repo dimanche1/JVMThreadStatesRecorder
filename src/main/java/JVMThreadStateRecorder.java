@@ -11,7 +11,7 @@ public class JVMThreadStateRecorder {
     private Map<Integer, GetThreadStates> recorders = new HashMap<>();
     private int counter = 0;
 
-    public String dbConfiguration(InfluxDbConfiguration influxDbConfiguration) {
+    public String influxDbConnect(InfluxDbConfiguration influxDbConfiguration) {
         if(db == null) {
             this.influxDbConfiguration = influxDbConfiguration;
 
@@ -24,7 +24,7 @@ public class JVMThreadStateRecorder {
     }
 
     public int start(Configuration configuration) {
-        recorders.put(++counter, GetThreadStates.createAndStart(configuration, db));
+        recorders.put(++counter, GetThreadStates.createAndStart(configuration, db, counter));
 
         return counter;
     }
@@ -49,5 +49,14 @@ public class JVMThreadStateRecorder {
 
     public String getDbConfig() throws JsonProcessingException {
         return mapper.writeValueAsString(influxDbConfiguration);
+    }
+
+    public boolean internalMonitoring() {
+        InternalMonitoring internalMonitoring = new InternalMonitoring(influxDbConfiguration);
+        if (InternalMonitoring.getRegistry() != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

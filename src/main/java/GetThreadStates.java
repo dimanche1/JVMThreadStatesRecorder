@@ -1,10 +1,14 @@
+import io.micrometer.core.instrument.Timer;
+
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-public class GetThreadStates implements Runnable{
+public class GetThreadStates implements Runnable {
+    private int id;
     private MBeanConnection mBeanConnection = new MBeanConnection();
     private MBeanServerConnection server;
     private Configuration configuration;
@@ -12,22 +16,32 @@ public class GetThreadStates implements Runnable{
     private InfluxDBStorage db;
     private  ThreadState ts;
     private ExecutorService exec;
+    private Timer timer;
 
     private final static long GET_STATES_EACH_MS = 1000;
 
-    GetThreadStates(Configuration configuration, InfluxDBStorage db) {
+    GetThreadStates(Configuration configuration, InfluxDBStorage db, int id) {
         this.configuration = configuration;
         this.db = db;
+        this.id = id;
 
         if (configuration.getPid() != null) {
             connectByPid();
         } else if (configuration.getJmxHost() != null && String.valueOf(configuration.getJmxPort()) != null) {
             connectByJmxRemote();
         }
+
+        if (InternalMonitoring.getRegistry() != null) {
+            timer = Timer
+                    .builder("time_to_get_thread_states")
+                    .description("Time to get thread states by tasks")
+                    .tags("task_id", String.valueOf(id))
+                    .register(InternalMonitoring.getRegistry());
+        }
     }
 
-    public static GetThreadStates createAndStart(Configuration configuration, InfluxDBStorage db) {
-        GetThreadStates getThreadStates = new GetThreadStates(configuration, db);
+    public static GetThreadStates createAndStart(Configuration configuration, InfluxDBStorage db, int id) {
+        GetThreadStates getThreadStates = new GetThreadStates(configuration, db, id);
 
         getThreadStates.ts = new ThreadState(getThreadStates.server);
 
@@ -61,6 +75,9 @@ public class GetThreadStates implements Runnable{
             try {
                 long afterTime = System.currentTimeMillis();
                 long gapTime = afterTime - beforeTime;
+                if (timer != null) {
+                    timer.record(gapTime, TimeUnit.MILLISECONDS);
+                }
                 if (gapTime < GET_STATES_EACH_MS) {
                     Thread.sleep(GET_STATES_EACH_MS - gapTime);
                 }
@@ -105,5 +122,9 @@ public class GetThreadStates implements Runnable{
 
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    public int getId() {
+        return id;
     }
 }

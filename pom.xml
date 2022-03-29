@@ -16,6 +16,7 @@
         <jackson.version>2.12.4</jackson.version>
         <slf4j-simple.version>2.0.0-alpha6</slf4j-simple.version>
         <slf4j-api.version>2.0.0-alpha6</slf4j-api.version>
+        <micrometer.version>1.8.3</micrometer.version>
     </properties>
 
     <dependencies>
@@ -44,6 +45,15 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-api.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-influx</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
     </dependencies>
-
 </project>
