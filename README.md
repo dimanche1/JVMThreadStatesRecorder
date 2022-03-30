@@ -14,7 +14,7 @@ Purpose of the JVMThreadStatesRecorder is to write JVM thread states (like runna
 ## Endpoints
 
 - #### Configure a connection to the InfluxDB  
-POST /InfluxDbConfiguration  
+POST /Configuration.InfluxDbConfiguration  
 body:
 ```json
 {  
@@ -37,7 +37,7 @@ body:
 {  
 "jmxHost":"127.0.0.1",  
 "jmxPort":"9010",  
-"threadFilter":"Example"  
+"threadFilter":"Example",  
 "tags":{  
 "tag1":"value1",  
 "tag2":"value2"  
@@ -75,7 +75,7 @@ response:
 {  
   (id of the task):  
   {  
-    (Configuration object of the task)  
+    (Configuration.Configuration object of the task)  
   },  
   ...
 }    

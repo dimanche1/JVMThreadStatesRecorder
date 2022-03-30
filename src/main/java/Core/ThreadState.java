@@ -1,3 +1,5 @@
+package Core;
+
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
 import java.lang.management.ThreadInfo;

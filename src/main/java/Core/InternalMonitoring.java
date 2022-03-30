@@ -1,6 +1,8 @@
+package Core;
+
+import Configuration.InfluxDbConfiguration;
 import io.micrometer.core.instrument.Clock;
 import io.micrometer.core.instrument.binder.jvm.*;
-import io.micrometer.core.instrument.binder.system.DiskSpaceMetrics;
 import io.micrometer.core.instrument.binder.system.FileDescriptorMetrics;
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics;
 import io.micrometer.core.instrument.binder.system.UptimeMetrics;
@@ -38,7 +40,7 @@ public class InternalMonitoring {
 
         registry = new InfluxMeterRegistry(config, Clock.SYSTEM);
 
-        registry.config().commonTags("application", "JVMThreadStateRecorder");
+        registry.config().commonTags("application", "Core.JVMThreadStateRecorder");
 
         new ClassLoaderMetrics().bindTo(getRegistry());
         new JvmMemoryMetrics().bindTo(getRegistry());

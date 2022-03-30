@@ -1,3 +1,8 @@
+package Storage;
+
+import Configuration.InfluxDbConfiguration;
+import Core.ThreadStateContainer;
+
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
 import org.influxdb.InfluxDBIOException;
@@ -9,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class InfluxDBStorage {
     private InfluxDB influxDB;
     private InfluxDbConfiguration influxDbConfiguration;
-
+    private boolean isConnected = false;
 
     public InfluxDBStorage(InfluxDbConfiguration influxDbConfiguration) {
         this.influxDbConfiguration = influxDbConfiguration;
@@ -32,6 +37,8 @@ public class InfluxDBStorage {
             if (response.getVersion().equalsIgnoreCase("unknown")) {
                 System.out.println("Error pinging InfluxDB server " + influxDbConfiguration.getInfluxdbUrl());
                 return;
+            } else {
+                isConnected = true;
             }
         } catch (Exception e) {
             System.out.println("Failed to connect to InfluxDB " + influxDbConfiguration.getInfluxdbUrl());
@@ -55,5 +62,9 @@ public class InfluxDBStorage {
 
     public void close() {
         influxDB.close();
+    }
+
+    public boolean isConnected() {
+        return isConnected;
     }
 }

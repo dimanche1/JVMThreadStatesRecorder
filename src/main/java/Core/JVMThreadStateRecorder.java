@@ -1,3 +1,8 @@
+package Core;
+
+import Configuration.*;
+import Storage.InfluxDBStorage;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,13 +16,18 @@ public class JVMThreadStateRecorder {
     private Map<Integer, GetThreadStates> recorders = new HashMap<>();
     private int counter = 0;
 
+    //TODO Create DB if not exist
     public String influxDbConnect(InfluxDbConfiguration influxDbConfiguration) {
         if(db == null) {
             this.influxDbConfiguration = influxDbConfiguration;
 
             db = new InfluxDBStorage(influxDbConfiguration);
 
-            return "InfluxDB connection to " + influxDbConfiguration.getInfluxdbUrl() + " established";
+            if (db.isConnected()) {
+                return "InfluxDB connection to " + influxDbConfiguration.getInfluxdbUrl() + " established";
+            } else {
+                return "Failed to connect to InfluxDB " + influxDbConfiguration.getInfluxdbUrl();
+            }
         } else {
             return "Connection to InfluxDB already established.";
         }

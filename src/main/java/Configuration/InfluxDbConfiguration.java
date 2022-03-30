@@ -1,3 +1,5 @@
+package Configuration;
+
 public class InfluxDbConfiguration {
     private String influxdbUrl;
     private String influxdbDb;

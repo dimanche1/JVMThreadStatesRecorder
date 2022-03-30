@@ -1,3 +1,6 @@
+import Configuration.*;
+
+import Core.JVMThreadStateRecorder;
 import io.javalin.Javalin;
 import io.javalin.http.ContentType;
 import io.javalin.http.HttpCode;
@@ -11,7 +14,7 @@ public class App {
 
         Javalin app = Javalin.create().start(port);
 
-        app.post("/InfluxDbConfiguration", ctx -> {
+        app.post("/Configuration.InfluxDbConfiguration", ctx -> {
             ctx.result(jvmThreadStateRecorder.influxDbConnect(ctx.bodyAsClass(InfluxDbConfiguration.class)));
         });
 
@@ -26,7 +29,7 @@ public class App {
 
             ctx
                 .status(HttpCode.OK)
-                .contentType(ContentType.APPLICATION_JSON)
+                .contentType(ContentType.PLAIN)
                 .result(response);
         });
 
@@ -65,7 +68,7 @@ public class App {
                 break;
             default: break;
         }
-//        InfluxDbConfiguration influxDbConfiguration = new InfluxDbConfiguration();
+//        Configuration.InfluxDbConfiguration influxDbConfiguration = new Configuration.InfluxDbConfiguration();
 //        port = Integer.parseInt(System.getProperty("JavalinPort"));
 //        influxDbConfiguration.setInfluxdbUrl(System.getProperty("InfluxdbUrl"));
 //        influxDbConfiguration.setInfluxdbDb(System.getProperty("InfluxdbDb"));
