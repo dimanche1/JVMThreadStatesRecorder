@@ -82,8 +82,11 @@ response:
 ```  
 
 - #### Returns connection configuration to the InfluxDB  
-GET /dbconfig 
+GET /dbconfig  
 
+- #### Start internal monitoring   
+GET /internalMonitoring  
+Tasks that started before won't be monitored
 
 ## Grafana configuration  
 - #### Ready to use dashboard  
@@ -95,6 +98,11 @@ GET /dbconfig
 ![image](https://user-images.githubusercontent.com/79479018/160241944-03c1b717-69c8-42be-afd5-b1e65a025a09.png)  
 
 - #### Value mappings  
-![image](https://user-images.githubusercontent.com/79479018/160242159-ab79b34a-6213-4728-ab64-8193456e6795.png)
+![image](https://user-images.githubusercontent.com/79479018/160242159-ab79b34a-6213-4728-ab64-8193456e6795.png)  
 
 
+## Internal monitoring  
+Shows time in ms. which is spent on collecting thread states, grouped by task ID  
+:chart_with_upwards_trend: [JVM_Thread_States_Dashboard.json](JVM_Thread_States_Dashboard.json)  
+
+![image](https://user-images.githubusercontent.com/79479018/160942954-e04c42cf-45cf-405e-aec8-7d4412e64a75.png)  
