@@ -1,0 +1,304 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "iteration": 1648673814172,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${data_source}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 100,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "light-green",
+                  "index": 0,
+                  "text": "NEW"
+                },
+                "2": {
+                  "color": "dark-green",
+                  "index": 1,
+                  "text": "RUNNABLE"
+                },
+                "3": {
+                  "color": "dark-red",
+                  "index": 2,
+                  "text": "BLOCKED"
+                },
+                "4": {
+                  "color": "dark-blue",
+                  "index": 3,
+                  "text": "WAITING"
+                },
+                "5": {
+                  "color": "dark-yellow",
+                  "index": 4,
+                  "text": "TIMED_WAITING"
+                },
+                "6": {
+                  "color": "light-red",
+                  "index": 5,
+                  "text": "TERMINATED"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "mergeValues": false,
+        "rowHeight": 0.78,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "$tag_name",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${data_source}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "id"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "thread_states",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"state\") FROM /^$measurement$/ WHERE ((\"jmx_host\" =~ /^$jmx_host$/ AND \"jmx_port\" =~ /^$jmx_port$/) OR \"pid\"=~/^$pid$/) AND $timeFilter GROUP BY time(1s), \"id\", \"name\" fill(null)",
+          "rawQuery": true,
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "state"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "jmx_host",
+              "operator": "=~",
+              "value": "/^$jmx_host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "jmx_port",
+              "operator": "=~",
+              "value": "/^$jmx_port$/"
+            }
+          ]
+        }
+      ],
+      "title": "Thread States",
+      "type": "state-timeline"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 35,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "InfluxDB",
+          "value": "InfluxDB"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "data_source",
+        "options": [],
+        "query": "influxdb",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "thread_states",
+          "value": "thread_states"
+        },
+        "definition": "show measurements",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "measurement",
+        "options": [],
+        "query": "show measurements",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "127.0.0.1",
+          "value": "127.0.0.1"
+        },
+        "definition": "show tag values from $measurement with key=\"jmx_host\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "jmx_host",
+        "options": [],
+        "query": "show tag values from $measurement with key=\"jmx_host\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "9010",
+          "value": "9010"
+        },
+        "definition": "show tag values from $measurement with key=\"jmx_port\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "jmx_port",
+        "options": [],
+        "query": "show tag values from $measurement with key=\"jmx_port\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            ""
+          ],
+          "value": [
+            ""
+          ]
+        },
+        "definition": "show tag values from $measurement with key=\"pid\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "pid",
+        "options": [],
+        "query": "show tag values from $measurement with key=\"pid\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "JVM Thread States",
+  "uid": "sbUaDvP7z",
+  "version": 32,
+  "weekStart": ""
+}
