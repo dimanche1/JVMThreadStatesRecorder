@@ -22,10 +22,23 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1648673814172,
+  "iteration": 1648679243170,
   "links": [],
   "liveNow": false,
   "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "panels": [],
+      "title": "Thread States",
+      "type": "row"
+    },
     {
       "datasource": {
         "type": "influxdb",
@@ -94,7 +107,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 1
       },
       "id": 2,
       "options": {
@@ -183,6 +196,148 @@
       ],
       "title": "Thread States",
       "type": "state-timeline"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 6,
+      "panels": [],
+      "title": "JVMThreadStateRecorder Internal Monitoring",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${data_source}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "right"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "Task ID $tag_task_id",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${data_source}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "10s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "task_id"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "time_to_get_thread_states",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "mean"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Time to Get Thread States by Task ID",
+      "type": "timeseries"
     }
   ],
   "refresh": "",
@@ -193,7 +348,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "InfluxDB",
           "value": "InfluxDB"
         },
@@ -211,9 +366,13 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "thread_states",
           "value": "thread_states"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${data_source}"
         },
         "definition": "show measurements",
         "hide": 0,
@@ -230,17 +389,25 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "127.0.0.1",
-          "value": "127.0.0.1"
+          "selected": true,
+          "text": [
+            "127.0.0.1"
+          ],
+          "value": [
+            "127.0.0.1"
+          ]
         },
-        "definition": "show tag values from $measurement with key=\"jmx_host\"",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${data_source}"
+        },
+        "definition": "show tag values from $measurement with key=\"jmx_host\" where $timeFilter",
         "hide": 0,
         "includeAll": false,
         "multi": true,
         "name": "jmx_host",
         "options": [],
-        "query": "show tag values from $measurement with key=\"jmx_host\"",
+        "query": "show tag values from $measurement with key=\"jmx_host\" where $timeFilter",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -249,17 +416,25 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "9010",
-          "value": "9010"
+          "selected": true,
+          "text": [
+            "9010"
+          ],
+          "value": [
+            "9010"
+          ]
         },
-        "definition": "show tag values from $measurement with key=\"jmx_port\"",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${data_source}"
+        },
+        "definition": "show tag values from $measurement with key=\"jmx_port\" where $timeFilter",
         "hide": 0,
         "includeAll": false,
         "multi": true,
         "name": "jmx_port",
         "options": [],
-        "query": "show tag values from $measurement with key=\"jmx_port\"",
+        "query": "show tag values from $measurement with key=\"jmx_port\" where $timeFilter",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -269,20 +444,20 @@
       {
         "current": {
           "selected": false,
-          "text": [
-            ""
-          ],
-          "value": [
-            ""
-          ]
+          "text": "28412",
+          "value": "28412"
         },
-        "definition": "show tag values from $measurement with key=\"pid\"",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${data_source}"
+        },
+        "definition": "show tag values from $measurement with key=\"pid\" where $timeFilter",
         "hide": 0,
         "includeAll": false,
         "multi": true,
         "name": "pid",
         "options": [],
-        "query": "show tag values from $measurement with key=\"pid\"",
+        "query": "show tag values from $measurement with key=\"pid\" where $timeFilter",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -292,13 +467,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "JVM Thread States",
   "uid": "sbUaDvP7z",
-  "version": 32,
+  "version": 38,
   "weekStart": ""
 }
