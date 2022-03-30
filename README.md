@@ -87,7 +87,7 @@ GET /dbconfig
 
 ## Grafana configuration  
 - #### Ready to use dashboard  
-:chart_with_upwards_trend: JVM_Thread_States_Dashboard.json 
+:chart_with_upwards_trend: [JVM_Thread_States_Dashboard.json](JVM_Thread_States_Dashboard.json) 
 
 - #### Visaulization: State timeline
 
