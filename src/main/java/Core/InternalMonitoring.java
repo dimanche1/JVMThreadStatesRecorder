@@ -40,20 +40,20 @@ public class InternalMonitoring {
 
         registry = new InfluxMeterRegistry(config, Clock.SYSTEM);
 
-        registry.config().commonTags("application", "Core.JVMThreadStateRecorder");
+        registry.config().commonTags("application", "JVMThreadStateRecorder");
 
-        new ClassLoaderMetrics().bindTo(getRegistry());
-        new JvmMemoryMetrics().bindTo(getRegistry());
-        new JvmGcMetrics().bindTo(getRegistry());
-        new JvmThreadMetrics().bindTo(getRegistry());
+//        new ClassLoaderMetrics().bindTo(getRegistry());
+//        new JvmMemoryMetrics().bindTo(getRegistry());
+//        new JvmGcMetrics().bindTo(getRegistry());
+//        new JvmThreadMetrics().bindTo(getRegistry());
 //        new ExecutorServiceMetrics().bindTo(registry);
 //        new JvmCompilationMetrics().bindTo(getRegistry());
 //        new JvmHeapPressureMetrics().bindTo(getRegistry());
 //        new JvmInfoMetrics().bindTo(getRegistry());
-        new UptimeMetrics().bindTo(getRegistry());
-        new ProcessorMetrics().bindTo(getRegistry());
+//        new UptimeMetrics().bindTo(getRegistry());
+//        new ProcessorMetrics().bindTo(getRegistry());
 //        new DiskSpaceMetrics(new File(System.getProperty("user.dir"))).bindTo(getRegistry());
-        new FileDescriptorMetrics().bindTo(getRegistry());
+//        new FileDescriptorMetrics().bindTo(getRegistry());
     }
 
     public static InfluxMeterRegistry getRegistry() {
