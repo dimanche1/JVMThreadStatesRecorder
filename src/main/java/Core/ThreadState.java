@@ -40,11 +40,11 @@ public class ThreadState {
                 threadStateContainer.setTag("id", String.valueOf(ti.getThreadId()));
                 threadStateContainer.setTag("name", ti.getThreadName());
                 threadStateContainer.setField("state", getThreadStateInt(ti.getThreadState().toString()));
-                threadStateContainer.setField("blockedCount", String.valueOf(ti.getBlockedCount()));
+                threadStateContainer.setField("blockedCount", ti.getBlockedCount());
                 if (ti.getBlockedTime() < 0) {
-                    threadStateContainer.setField("blockedTime", "0");
+                    threadStateContainer.setField("blockedTime", 0);
                 } else {
-                    threadStateContainer.setField("blockedTime", String.valueOf(ti.getBlockedTime()));
+                    threadStateContainer.setField("blockedTime", ti.getBlockedTime());
                 }
 
                 tsc.add(threadStateContainer);

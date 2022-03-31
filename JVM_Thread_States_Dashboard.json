@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1648679243170,
+  "iteration": 1648769004590,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -158,12 +158,12 @@
             }
           ],
           "hide": false,
-          "measurement": "thread_states",
+          "measurement": "/^$measurement$/",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"state\") FROM /^$measurement$/ WHERE ((\"jmx_host\" =~ /^$jmx_host$/ AND \"jmx_port\" =~ /^$jmx_port$/) OR \"pid\"=~/^$pid$/) AND $timeFilter GROUP BY time(1s), \"id\", \"name\" fill(null)",
-          "rawQuery": true,
-          "refId": "F",
+          "query": "SELECT last(\"state\") FROM /^$measurement$/ WHERE (\"jmx_host\" =~ /^$jmx_host$/ AND \"jmx_port\" =~ /^$jmx_port$/ AND \"pid\" =~ /^$pid$/) AND $timeFilter GROUP BY time(1s), \"id\", \"name\" fill(null)",
+          "rawQuery": false,
+          "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
@@ -190,6 +190,12 @@
               "key": "jmx_port",
               "operator": "=~",
               "value": "/^$jmx_port$/"
+            },
+            {
+              "condition": "AND",
+              "key": "pid",
+              "operator": "=~",
+              "value": "/^$pid$/"
             }
           ]
         }
@@ -198,12 +204,166 @@
       "type": "state-timeline"
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${data_source}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "blocked count"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.3",
+      "targets": [
+        {
+          "alias": "blocked count",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${data_source}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "0"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "/^$measurement$/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"blockedCount\") FROM /^$measurement$/ WHERE (( \"jmx_host\" =~ /^$jmx_host$/ AND \"jmx_port\" =~ /^$jmx_port$/ ) OR \"pid\" =~ /^$pid$/) AND $timeFilter GROUP BY time(1s) fill(0)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "blockedCount"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "jmx_host",
+              "operator": "=~",
+              "value": "/^$jmx_host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "jmx_port",
+              "operator": "=~",
+              "value": "/^$jmx_port$/"
+            },
+            {
+              "condition": "AND",
+              "key": "pid",
+              "operator": "=~",
+              "value": "/^$pid$/"
+            }
+          ]
+        }
+      ],
+      "title": "Blocked",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 23
       },
       "id": 6,
       "panels": [],
@@ -270,7 +430,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 24
       },
       "id": 8,
       "options": {
@@ -332,15 +492,14 @@
                 "type": "last"
               }
             ]
-          ],
-          "tags": []
+          ]
         }
       ],
       "title": "Time to Get Thread States by Task ID",
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 35,
   "style": "dark",
   "tags": [],
@@ -444,8 +603,12 @@
       {
         "current": {
           "selected": false,
-          "text": "28412",
-          "value": "28412"
+          "text": [
+            ""
+          ],
+          "value": [
+            ""
+          ]
         },
         "datasource": {
           "type": "influxdb",
@@ -467,13 +630,13 @@
     ]
   },
   "time": {
-    "from": "now-30m",
-    "to": "now"
+    "from": "2022-03-31T23:15:21.858Z",
+    "to": "2022-03-31T23:16:05.437Z"
   },
   "timepicker": {},
   "timezone": "",
   "title": "JVM Thread States",
   "uid": "sbUaDvP7z",
-  "version": 38,
+  "version": 68,
   "weekStart": ""
 }

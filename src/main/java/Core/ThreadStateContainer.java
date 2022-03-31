@@ -28,7 +28,7 @@ public class ThreadStateContainer {
         return fields;
     }
 
-    public void setField(String name, String value) {
+    public void setField(String name, Object value) {
         fields.put(name, value);
     }
 }
