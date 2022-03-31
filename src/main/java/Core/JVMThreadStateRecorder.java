@@ -5,6 +5,7 @@ import Storage.InfluxDBStorage;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.influxdb.InfluxDBException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,11 @@ public class JVMThreadStateRecorder {
         if(db == null) {
             this.influxDbConfiguration = influxDbConfiguration;
 
-            db = new InfluxDBStorage(influxDbConfiguration);
-
-            if (db.isConnected()) {
+            try {
+                db = new InfluxDBStorage(influxDbConfiguration);
                 return "InfluxDB connection to " + influxDbConfiguration.getInfluxdbUrl() + " established";
-            } else {
-                return "Failed to connect to InfluxDB " + influxDbConfiguration.getInfluxdbUrl();
+            } catch (InfluxDBException e) {
+                return e.toString();
             }
         } else {
             return "Connection to InfluxDB already established.";

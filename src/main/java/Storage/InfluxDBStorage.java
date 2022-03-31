@@ -4,6 +4,7 @@ import Configuration.InfluxDbConfiguration;
 import Core.ThreadStateContainer;
 
 import org.influxdb.InfluxDB;
+import org.influxdb.InfluxDBException;
 import org.influxdb.InfluxDBFactory;
 import org.influxdb.InfluxDBIOException;
 import org.influxdb.dto.Point;
@@ -41,7 +42,7 @@ public class InfluxDBStorage {
                 isConnected = true;
             }
         } catch (Exception e) {
-            System.out.println("Failed to connect to InfluxDB " + influxDbConfiguration.getInfluxdbUrl());
+            throw new InfluxDBException("Failed to connect to InfluxDB " + influxDbConfiguration.getInfluxdbUrl());
         }
     }
 
