@@ -12,6 +12,13 @@ public class App {
 
         int port = handleCommandArgs(args);
 
+        // Gracefully shutting the JVMThreadStateRecorder down
+        Thread shutDownHookThread = new Thread(() -> {
+            jvmThreadStateRecorder.closeConnectionInfluxDB();
+            jvmThreadStateRecorder.stopAllTasks();
+        });
+        Runtime.getRuntime().addShutdownHook(shutDownHookThread);
+
         Javalin app = Javalin.create().start(port);
 
         app.post("/Configuration.InfluxDbConfiguration", ctx -> {

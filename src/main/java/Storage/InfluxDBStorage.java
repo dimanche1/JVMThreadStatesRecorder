@@ -9,6 +9,7 @@ import org.influxdb.InfluxDBFactory;
 import org.influxdb.InfluxDBIOException;
 import org.influxdb.dto.Point;
 import org.influxdb.dto.Pong;
+import org.influxdb.dto.Query;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +30,7 @@ public class InfluxDBStorage {
         System.out.println("Try to connect to influxdb: " + influxDbConfiguration.getInfluxdbUrl());
 
         influxDB = InfluxDBFactory.connect(influxDbConfiguration.getInfluxdbUrl());
+        influxDB.query(new Query("CREATE DATABASE " + influxDbConfiguration.getInfluxdbDb()));
         influxDB.setDatabase(influxDbConfiguration.getInfluxdbDb());
         influxDB.enableBatch(influxDbConfiguration.getInfluxdbBatchSize(), influxDbConfiguration.getInfluxdbBatchTime(), TimeUnit.SECONDS);
         influxDB.setLogLevel(InfluxDB.LogLevel.BASIC);

@@ -9,15 +9,15 @@ import org.influxdb.InfluxDBException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class JVMThreadStateRecorder {
     private InfluxDBStorage db;
     private InfluxDbConfiguration influxDbConfiguration;
     private ObjectMapper mapper = new ObjectMapper();
-    private Map<Integer, GetThreadStates> recorders = new HashMap<>();
+    private Map<Integer, GetThreadStates> recorders = new ConcurrentHashMap<>();
     private int counter = 0;
 
-    //TODO Create DB if not exist
     public String influxDbConnect(InfluxDbConfiguration influxDbConfiguration) {
         if(db == null) {
             this.influxDbConfiguration = influxDbConfiguration;
@@ -33,6 +33,11 @@ public class JVMThreadStateRecorder {
         }
     }
 
+    public void closeConnectionInfluxDB() {
+        System.out.println("Closing connection to InfluxDB: " + influxDbConfiguration.getInfluxdbUrl());
+        db.close();
+    }
+
     public int start(Configuration configuration) {
         recorders.put(++counter, GetThreadStates.createAndStart(configuration, db, counter));
 
@@ -43,11 +48,15 @@ public class JVMThreadStateRecorder {
         if (recorders.containsKey(jvmThreadStateRecorderID)) {
             recorders.get(jvmThreadStateRecorderID).stop();
             recorders.remove(jvmThreadStateRecorderID);
-            --counter;
+            //TODO handle counter
             return "Task with id " + jvmThreadStateRecorderID + " stopped.";
         } else {
             return "Task with id " + jvmThreadStateRecorderID + " doesn't exist.";
         }
+    }
+
+    public void stopAllTasks() {
+        recorders.forEach((id, task) -> System.out.println(stop(id)));
     }
 
     public String tasks() throws JsonProcessingException {
