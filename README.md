@@ -106,4 +106,4 @@ Tested with Grafana 8.4.3
 Shows time in ms. which is spent on collecting thread states, grouped by task   
 :chart_with_upwards_trend: [JVM_Thread_States_Dashboard.json](JVM_Thread_States_Dashboard.json)  
 
-![image](https://user-images.githubusercontent.com/79479018/160942954-e04c42cf-45cf-405e-aec8-7d4412e64a75.png)  
+![image](https://user-images.githubusercontent.com/79479018/161435702-f2e92699-dbb6-47a1-9018-81fa01719538.png)  
