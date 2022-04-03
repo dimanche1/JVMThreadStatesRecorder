@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 7,
-  "iteration": 1648997281237,
+  "iteration": 1649027410737,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -340,8 +340,8 @@
       {
         "current": {
           "selected": false,
-          "text": "InfluxDB",
-          "value": "InfluxDB"
+          "text": "InfluxDB_jvmthreadstatesrecorder",
+          "value": "InfluxDB_jvmthreadstatesrecorder"
         },
         "hide": 0,
         "includeAll": false,
@@ -349,7 +349,6 @@
         "name": "data_source",
         "options": [],
         "query": "influxdb",
-        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -381,8 +380,12 @@
       {
         "current": {
           "selected": false,
-          "text": "1 - 127.0.0.1:9010",
-          "value": "1 - 127.0.0.1:9010"
+          "text": "2 - 127.0.0.1:9010",
+          "value": "2 - 127.0.0.1:9010"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${data_source}"
         },
         "definition": "show tag values from $measurement with key=\"task\"",
         "hide": 0,
@@ -400,13 +403,13 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "JVM Thread States",
   "uid": "RVfnE_snz",
-  "version": 13,
+  "version": 16,
   "weekStart": ""
 }
