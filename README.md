@@ -14,7 +14,7 @@ Purpose of the JVMThreadStatesRecorder is to write JVM thread states (like runna
 ## Endpoints
 
 - #### Configure a connection to the InfluxDB  
-POST /Configuration.InfluxDbConfiguration  
+POST /InfluxDbConfiguration  
 body:
 ```json
 {  
@@ -25,7 +25,7 @@ body:
 "influxdbBatchTime":"10"  
 }
 ```
-"influxdbDb":"jvm_app_monitoring",  *(db should be existed)*  
+"influxdbDb":"jvm_app_monitoring",  
 "influxdbMeasurement":"jvm_thread_states_1",  *(optional, default: thread_states)*  
 "influxdbBatchSize":"1000",  *(optional, default: 1000)*  
 "influxdbBatchTime":"10"  *(optional, default: 10)* 
