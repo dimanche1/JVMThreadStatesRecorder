@@ -3,6 +3,7 @@ package Core;
 import Configuration.Configuration;
 import Storage.InfluxDBStorage;
 import io.micrometer.core.instrument.Timer;
+import org.influxdb.dto.Point;
 
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
@@ -36,10 +37,16 @@ public class GetThreadStates implements Runnable {
         }
 
         if (InternalMonitoring.getRegistry() != null) {
+            String task = "";
+            if (getConfiguration().getPid() != null) {
+                task = id + " - " + getConfiguration().getPid();
+            } else {
+                task = id + " - " + getConfiguration().getJmxHost() + ":" + getConfiguration().getJmxPort();
+            }
             timer = Timer
                     .builder("time_to_get_thread_states")
                     .description("Time to get thread states by tasks")
-                    .tags("task_id", String.valueOf(id))
+                    .tags("task", task)
                     .register(InternalMonitoring.getRegistry());
         }
     }
@@ -66,10 +73,12 @@ public class GetThreadStates implements Runnable {
             ArrayList<ThreadStateContainer> threadList = ts.getThreadStates(getConfiguration().getThreadFilter());
             for (ThreadStateContainer threadListElement : threadList) {
                 if (getConfiguration().getPid() != null) {
-                    threadListElement.setTag("pid", getConfiguration().getPid());
+//                    threadListElement.setTag("pid", getConfiguration().getPid());
+                    threadListElement.setTag("task", id + " - " + getConfiguration().getPid());
                 } else {
-                    threadListElement.setTag("jmx_host", getConfiguration().getJmxHost());
-                    threadListElement.setTag("jmx_port", String.valueOf(getConfiguration().getJmxPort()));
+//                    threadListElement.setTag("jmx_host", getConfiguration().getJmxHost());
+//                    threadListElement.setTag("jmx_port", String.valueOf(getConfiguration().getJmxPort()));
+                    threadListElement.setTag("task", id + " - " + getConfiguration().getJmxHost() + ":" + getConfiguration().getJmxPort());
                 }
 
                 getConfiguration().getTags().forEach((k, v) -> threadListElement.setTag(k, v));
@@ -131,4 +140,12 @@ public class GetThreadStates implements Runnable {
     public int getId() {
         return id;
     }
+
+//    private Point getInfluxDbPoint(ThreadStateContainer threadStateContainer) {
+//        return Point.measurement(influxDbConfiguration.getInfluxdbMeasurement())
+//                .time(threadStateContainer.getTime(), TimeUnit.MILLISECONDS)
+//                .tag(threadStateContainer.getTags())
+//                .fields(threadStateContainer.getFields())
+//                .build();
+//    }
 }

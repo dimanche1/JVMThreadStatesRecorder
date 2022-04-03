@@ -26,6 +26,10 @@ public class ThreadState {
             }
         }
 
+        // TODO make it optional?
+        // Enables or disables thread contention monitoring. Thread contention monitoring is disabled by default.
+//        tmbean.setThreadContentionMonitoringEnabled(true);
+
         long[] tids = tmbean.getAllThreadIds();
         ThreadInfo[] tinfos = tmbean.getThreadInfo(tids);
         ArrayList<ThreadStateContainer> tsc = new ArrayList<ThreadStateContainer>();
@@ -40,13 +44,8 @@ public class ThreadState {
                 threadStateContainer.setTag("id", String.valueOf(ti.getThreadId()));
                 threadStateContainer.setTag("name", ti.getThreadName());
                 threadStateContainer.setField("state", getThreadStateInt(ti.getThreadState().toString()));
-                threadStateContainer.setField("blockedCount", ti.getBlockedCount());
-                if (ti.getBlockedTime() < 0) {
-                    threadStateContainer.setField("blockedTime", 0);
-                } else {
-                    threadStateContainer.setField("blockedTime", ti.getBlockedTime());
-                }
-
+//                threadStateContainer.setField("blockedCount", ti.getBlockedCount());
+//                threadStateContainer.setField("blockedTime", ti.getBlockedTime());
                 tsc.add(threadStateContainer);
             }
         }
