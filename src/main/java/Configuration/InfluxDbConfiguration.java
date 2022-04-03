@@ -2,7 +2,7 @@ package Configuration;
 
 public class InfluxDbConfiguration {
     private String influxdbUrl;
-    private String influxdbDb;
+    private String influxdbDb = "JVMThreadStatesRecorder";
     private String influxdbMeasurement = "thread_states";
     private int influxdbBatchSize = 1000;
     private int influxdbBatchTime = 10;

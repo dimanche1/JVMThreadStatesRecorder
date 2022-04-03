@@ -21,7 +21,7 @@ public class App {
 
         Javalin app = Javalin.create().start(port);
 
-        app.post("/Configuration.InfluxDbConfiguration", ctx -> {
+        app.post("/InfluxDbConfiguration", ctx -> {
             ctx.result(jvmThreadStateRecorder.influxDbConnect(ctx.bodyAsClass(InfluxDbConfiguration.class)));
         });
 
