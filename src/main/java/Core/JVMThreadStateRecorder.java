@@ -34,8 +34,10 @@ public class JVMThreadStateRecorder {
     }
 
     public void closeConnectionInfluxDB() {
-        System.out.println("Closing connection to InfluxDB: " + influxDbConfiguration.getInfluxdbUrl());
-        db.close();
+        if(db != null) {
+            System.out.println("Closing connection to InfluxDB: " + influxDbConfiguration.getInfluxdbUrl());
+            db.close();
+        }
     }
 
     public int start(Configuration configuration) {
