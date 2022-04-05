@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 7,
-  "iteration": 1649027410737,
+  "iteration": 1649116973682,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -349,6 +349,7 @@
         "name": "data_source",
         "options": [],
         "query": "influxdb",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -379,25 +380,25 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "2 - 127.0.0.1:9010",
-          "value": "2 - 127.0.0.1:9010"
+          "selected": true,
+          "text": "1 - 127.0.0.1:9010",
+          "value": "1 - 127.0.0.1:9010"
         },
         "datasource": {
           "type": "influxdb",
           "uid": "${data_source}"
         },
-        "definition": "show tag values from $measurement with key=\"task\"",
+        "definition": "select DISTINCT(\"task\") from (select \"task\", \"state\" from $measurement WHERE $timeFilter)",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "TaskID_Connection_preferences",
         "options": [],
-        "query": "show tag values from $measurement with key=\"task\"",
+        "query": "select DISTINCT(\"task\") from (select \"task\", \"state\" from $measurement WHERE $timeFilter)",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 3,
         "type": "query"
       }
     ]
@@ -410,6 +411,6 @@
   "timezone": "",
   "title": "JVM Thread States",
   "uid": "RVfnE_snz",
-  "version": 16,
+  "version": 26,
   "weekStart": ""
 }
