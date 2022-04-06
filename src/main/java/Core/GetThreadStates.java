@@ -118,6 +118,8 @@ public class GetThreadStates implements Runnable {
             e.printStackTrace();
         }
 
+        InternalMonitoring.getRegistry().remove(timer);
+
         getExec().shutdown();
     }
 
