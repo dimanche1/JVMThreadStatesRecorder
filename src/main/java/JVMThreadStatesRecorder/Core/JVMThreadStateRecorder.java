@@ -1,7 +1,8 @@
-package Core;
+package JVMThreadStatesRecorder.Core;
 
-import Configuration.*;
-import Storage.InfluxDBStorage;
+import JVMThreadStatesRecorder.Configuration.Configuration;
+import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
+import JVMThreadStatesRecorder.Storage.InfluxDBStorage;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,9 @@ public class JVMThreadStateRecorder {
     private InfluxDbConfiguration influxDbConfiguration;
     private ObjectMapper mapper = new ObjectMapper();
     private Map<Integer, GetThreadStates> recorders = new ConcurrentHashMap<>();
+
+    private InternalMonitoring internalMonitoring;
+
     private int counter = 0;
 
     public String influxDbConnect(InfluxDbConfiguration influxDbConfiguration) {
@@ -24,6 +28,9 @@ public class JVMThreadStateRecorder {
 
             try {
                 db = new InfluxDBStorage(influxDbConfiguration);
+
+                internalMonitoring = new InternalMonitoring(influxDbConfiguration);
+
                 return "InfluxDB connection to " + influxDbConfiguration.getInfluxdbUrl() + " established";
             } catch (InfluxDBException e) {
                 return e.toString();
@@ -73,8 +80,17 @@ public class JVMThreadStateRecorder {
     }
 
     public boolean internalMonitoring() {
-        InternalMonitoring internalMonitoring = new InternalMonitoring(influxDbConfiguration);
-        if (InternalMonitoring.getRegistry() != null) {
+        InternalMonitoring.configureInfluxMeterRegistry();
+        if (InternalMonitoring.getInfluxMeterRegistry() != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean internalMonitoringJvm() {
+        InternalMonitoring.configurePrometheusMeterRegistry();
+        if (InternalMonitoring.getPrometheusMeterRegistry() != null) {
             return true;
         } else {
             return false;

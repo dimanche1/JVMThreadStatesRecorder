@@ -1,4 +1,4 @@
-package Core;
+package JVMThreadStatesRecorder.Core;
 
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;

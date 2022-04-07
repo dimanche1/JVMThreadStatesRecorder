@@ -1,4 +1,4 @@
-package Configuration;
+package JVMThreadStatesRecorder.Configuration;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,12 +1,18 @@
-import Configuration.*;
+package JVMThreadStatesRecorder;
 
-import Core.JVMThreadStateRecorder;
+import JVMThreadStatesRecorder.Configuration.Configuration;
+import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
+import JVMThreadStatesRecorder.Core.InternalMonitoring;
+import JVMThreadStatesRecorder.Core.JVMThreadStateRecorder;
 import io.javalin.Javalin;
 import io.javalin.http.ContentType;
 import io.javalin.http.HttpCode;
+import org.eclipse.jetty.server.Connector;
 
 public class App {
+    private static Javalin app;
     private static JVMThreadStateRecorder jvmThreadStateRecorder = new JVMThreadStateRecorder();
+    private static Connector[] connectors;
 
     public static void main(String[] args) {
 
@@ -19,7 +25,7 @@ public class App {
         });
         Runtime.getRuntime().addShutdownHook(shutDownHookThread);
 
-        Javalin app = Javalin.create().start(port);
+        app = Javalin.create().start(port);
 
         app.post("/InfluxDbConfiguration", ctx -> {
             ctx.result(jvmThreadStateRecorder.influxDbConnect(ctx.bodyAsClass(InfluxDbConfiguration.class)));
@@ -59,6 +65,26 @@ public class App {
                 ctx.status(HttpCode.INTERNAL_SERVER_ERROR);
             }
         });
+
+        app.get("/internalMonitoringJvm", ctx -> {
+            boolean result = jvmThreadStateRecorder.internalMonitoringJvm();
+            if (result) {
+                ctx
+                        .status(HttpCode.OK)
+                        .contentType(ContentType.PLAIN)
+                        .result("JVM internal monitoring started.");
+
+            } else {
+                ctx.status(HttpCode.INTERNAL_SERVER_ERROR);
+            }
+        });
+
+        app.get("/getJvmStats", ctx -> {
+            ctx
+                    .status(HttpCode.OK)
+//                    .contentType(ContentType.)
+                    .result(InternalMonitoring.getPrometheusMeterRegistry().scrape());
+        });
     }
 
     private static int handleCommandArgs(String[] args) {
@@ -81,5 +107,9 @@ public class App {
 //        influxDbConfiguration.setInfluxdbDb(System.getProperty("InfluxdbDb"));
 
         return port;
+    }
+
+    public static Connector[] getConnectors() {
+        return  app.jettyServer().server().getConnectors();
     }
 }

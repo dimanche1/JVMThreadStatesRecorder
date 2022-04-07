@@ -1,9 +1,8 @@
-package Core;
+package JVMThreadStatesRecorder.Core;
 
-import Configuration.Configuration;
-import Storage.InfluxDBStorage;
+import JVMThreadStatesRecorder.Configuration.Configuration;
+import JVMThreadStatesRecorder.Storage.InfluxDBStorage;
 import io.micrometer.core.instrument.Timer;
-import org.influxdb.dto.Point;
 
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class GetThreadStates implements Runnable {
             connectByJmxRemote();
         }
 
-        if (InternalMonitoring.getRegistry() != null) {
+        if (InternalMonitoring.getInfluxMeterRegistry() != null) {
             String task = "";
             if (getConfiguration().getPid() != null) {
                 task = id + " - " + getConfiguration().getPid();
@@ -47,7 +46,7 @@ public class GetThreadStates implements Runnable {
                     .builder("time_to_get_thread_states")
                     .description("Time to get thread states by tasks")
                     .tags("task", task)
-                    .register(InternalMonitoring.getRegistry());
+                    .register(InternalMonitoring.getInfluxMeterRegistry());
         }
     }
 
@@ -118,7 +117,7 @@ public class GetThreadStates implements Runnable {
             e.printStackTrace();
         }
 
-        InternalMonitoring.getRegistry().remove(timer);
+        InternalMonitoring.getInfluxMeterRegistry().remove(timer);
 
         getExec().shutdown();
     }

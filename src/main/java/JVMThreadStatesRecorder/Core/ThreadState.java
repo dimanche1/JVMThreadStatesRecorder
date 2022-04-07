@@ -1,4 +1,4 @@
-package Core;
+package JVMThreadStatesRecorder.Core;
 
 import javax.management.MBeanServerConnection;
 import java.io.IOException;

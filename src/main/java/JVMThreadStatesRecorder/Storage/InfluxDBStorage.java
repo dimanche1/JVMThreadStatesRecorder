@@ -1,7 +1,7 @@
-package Storage;
+package JVMThreadStatesRecorder.Storage;
 
-import Configuration.InfluxDbConfiguration;
-import Core.ThreadStateContainer;
+import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
+import JVMThreadStatesRecorder.Core.ThreadStateContainer;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBException;
