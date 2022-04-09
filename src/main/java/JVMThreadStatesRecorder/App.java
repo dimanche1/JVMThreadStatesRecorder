@@ -27,7 +27,7 @@ public class App {
 
         app = Javalin.create().start(port);
 
-        app.post("/InfluxDbConfiguration", ctx -> {
+        app.post("/influxdb-configuration", ctx -> {
             ctx.result(jvmThreadStateRecorder.influxDbConnect(ctx.bodyAsClass(InfluxDbConfiguration.class)));
         });
 
@@ -53,39 +53,49 @@ public class App {
 
         app.get("/dbconfig", ctx -> ctx.result(jvmThreadStateRecorder.getDbConfig()));
 
-        app.get("/internalMonitoring", ctx -> {
-            boolean result = jvmThreadStateRecorder.internalMonitoring();
-            if (result) {
-                ctx
-                    .status(HttpCode.OK)
+        app.get("/internal-monitoring", ctx -> {
+            String result = jvmThreadStateRecorder.internalMonitoring();
+            switch (result) {
+                case "Error: InfluxDB unavailable": ctx.status(HttpCode.SERVICE_UNAVAILABLE)
                         .contentType(ContentType.PLAIN)
-                        .result("Internal monitoring started.");
-
-            } else {
-                ctx.status(HttpCode.INTERNAL_SERVER_ERROR);
-            }
-        });
-
-        app.get("/internalMonitoringJvm", ctx -> {
-            boolean result = jvmThreadStateRecorder.internalMonitoringJvm();
-            if (result) {
-                ctx
-                        .status(HttpCode.OK)
+                        .result(result);
+                    break;
+                case "Error: Couldn't start internal monitoring": ctx.status(HttpCode.SERVICE_UNAVAILABLE)
                         .contentType(ContentType.PLAIN)
-                        .result("JVM internal monitoring started.");
-
-            } else {
-                ctx.status(HttpCode.INTERNAL_SERVER_ERROR);
+                        .result(result);
+                    break;
+                case "Internal monitoring started": ctx.status(HttpCode.OK)
+                        .contentType(ContentType.PLAIN)
+                        .result("Internal monitoring started");
+                    break;
+                default: ctx.status(HttpCode.SERVICE_UNAVAILABLE)
+                        .contentType(ContentType.PLAIN)
+                        .result("Error: Something wrong");
+                    break;
             }
-        });
-
-        app.get("/getJvmStats", ctx -> {
-            ctx
-                    .status(HttpCode.OK)
-//                    .contentType(ContentType.)
-                    .result(InternalMonitoring.getPrometheusMeterRegistry().scrape());
         });
     }
+
+//        app.get("/internalMonitoringJvm", ctx -> {
+//            boolean result = jvmThreadStateRecorder.internalMonitoringJvm();
+//            if (result) {
+//                ctx
+//                        .status(HttpCode.OK)
+//                        .contentType(ContentType.PLAIN)
+//                        .result("JVM internal monitoring started.");
+//
+//            } else {
+//                ctx.status(HttpCode.INTERNAL_SERVER_ERROR);
+//            }
+//        });
+//
+//        app.get("/getJvmStats", ctx -> {
+//            ctx
+//                    .status(HttpCode.OK)
+////                    .contentType(ContentType.)
+//                    .result(InternalMonitoring.getPrometheusMeterRegistry().scrape());
+//        });
+//    }
 
     private static int handleCommandArgs(String[] args) {
         int port = 7070;

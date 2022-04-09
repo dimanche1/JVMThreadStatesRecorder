@@ -79,12 +79,15 @@ public class JVMThreadStateRecorder {
         return mapper.writeValueAsString(influxDbConfiguration);
     }
 
-    public boolean internalMonitoring() {
-        InternalMonitoring.configureInfluxMeterRegistry();
+    public String internalMonitoring() {
+        if (db == null || !db.isConnected()) return "Error: InfluxDB unavailable";
+
+        InternalMonitoring internalMonitoring = new InternalMonitoring(influxDbConfiguration);
+        internalMonitoring.configureInfluxMeterRegistry();
         if (InternalMonitoring.getInfluxMeterRegistry() != null) {
-            return true;
+            return "Internal monitoring started";
         } else {
-            return false;
+            return "Error: Couldn't start internal monitoring";
         }
     }
 
