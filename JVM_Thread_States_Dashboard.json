@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 7,
-  "iteration": 1649116973682,
+  "iteration": 1649280130714,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -339,7 +339,7 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "InfluxDB_jvmthreadstatesrecorder",
           "value": "InfluxDB_jvmthreadstatesrecorder"
         },
@@ -380,9 +380,10 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "1 - 127.0.0.1:9010",
-          "value": "1 - 127.0.0.1:9010"
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "influxdb",
@@ -411,6 +412,6 @@
   "timezone": "",
   "title": "JVM Thread States",
   "uid": "RVfnE_snz",
-  "version": 26,
+  "version": 30,
   "weekStart": ""
 }
