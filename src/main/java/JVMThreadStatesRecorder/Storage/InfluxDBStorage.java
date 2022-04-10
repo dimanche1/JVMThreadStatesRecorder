@@ -35,6 +35,7 @@ public class InfluxDBStorage {
         influxDB.enableBatch(influxDbConfiguration.getInfluxdbBatchSize(), influxDbConfiguration.getInfluxdbBatchTime(), TimeUnit.SECONDS);
         influxDB.setLogLevel(InfluxDB.LogLevel.BASIC);
 
+
         try {
             Pong response = this.influxDB.ping();
             if (response.getVersion().equalsIgnoreCase("unknown")) {
