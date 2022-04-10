@@ -5,11 +5,13 @@ Purpose of the JVMThreadStatesRecorder is to write JVM thread states (like runna
 ![image](https://user-images.githubusercontent.com/79479018/161306520-70a44e5b-c9ce-4c46-9a9a-0f64bc73617a.png)
 
 
-## Command line parameters (InfluxDB parameters are optional, could be configured with /influxdb-configuration):
-7080 http://127.0.0.1:8086 JVMThreadStatesRecorder
-1. 7080 (a port to start web server; a default port: 7070)
-2.  http://127.0.0.1:8086 (an url to the InfluxDB; optional)
-3.  JVMThreadStatesRecorder (DB name in the Influxdb; optional)
+## Command line (InfluxDB parameters are optional, could be configured with /influxdb-configuration):
+java -jar JVMThreadStatesRecorder.jar 7080 http://127.0.0.1:8086 JVMThreadStatesRecorder
+1. java (version 11 or later)  
+2. JVMThreadStatesRecorder.jar can be taken from out/artifacts/JVMThreadStatesRecorder_jar/  
+3. 7080 (a port to start web server; a default port: 7070)
+4. http://127.0.0.1:8086 (an url to the InfluxDB; optional)
+5. JVMThreadStatesRecorder (DB name in the Influxdb; optional)
 
 ## Endpoints
 
