@@ -39,7 +39,9 @@ body:
 {  
 "jmxHost":"127.0.0.1",  
 "jmxPort":"9010",  
-"threadFilter":"Example",  
+"threadFilter":"Example",
+"threadStates":"true",   
+"contentionMonitoring":"true",  
 "tags":{  
 "tag1":"value1",  
 "tag2":"value2"  
@@ -47,7 +49,9 @@ body:
 }  
 ```
 response: id of the task that can be used for stopping the task  
-"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
+"threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*
+"threadStates":"true" *(true or false. Enable thread states monitoring)*  
+"contentionMonitoring":"true" *(true or false. Enable contention monitoring - blocked count and blocked time)*  
 "tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*
 
 - #### Start monitoring an application with a pid
@@ -56,7 +60,9 @@ body:
 ```json
 {  
 "pid":"44620",  
-"threadFilter":"Example",  
+"threadFilter":"Example",
+"threadStates":"true",
+"contentionMonitoring":"true", 
 "tags":{  
 "tag1":"value1",  
 "tag2":"value2"  
@@ -65,6 +71,8 @@ body:
 ```
 response: id of the task that can be used for stopping the task  
 "threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
+"threadStates":"true" *(true or false. Enable thread states monitoring)*  
+"contentionMonitoring":"true" *(true or false. Enable contention monitoring - blocked count and blocked time)*  
 "tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*
 
 - #### Stop the task with an id
@@ -88,7 +96,7 @@ GET /dbconfig
 
 - #### Start internal monitoring
 GET /internal-monitoring  
-Tasks that started before won't be monitored
+Shows time in ms. which is spent on collecting thread states, grouped by task
 
 ## Grafana configuration
 - #### Ready to use dashboard

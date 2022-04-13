@@ -32,6 +32,11 @@ public class App {
         });
 
         app.post("/start", ctx -> {
+            Configuration configuration = ctx.bodyValidator(Configuration.class)
+                    .check(obj -> obj.isThreadStates()==true || obj.isContentionMonitoring()==true,"None of the monitorings were activated. Set \"threadStates\":\"true\" or\n" +
+                            "\"contentionMonitoring\":\"true\" or both to true.")
+                    .get();
+
             int jvmThreadStateRecorderID = jvmThreadStateRecorder.start(ctx.bodyAsClass(Configuration.class));
 
             ctx.result(String.valueOf(jvmThreadStateRecorderID));

@@ -7,6 +7,8 @@ public class Configuration {
     private String pid;
     private String jmxHost;
     private int jmxPort;
+    private boolean threadStates = false;
+    private boolean contentionMonitoring = false;
     private String threadFilter = "";
     private Map<String, String> tags = new LinkedHashMap<>();
 
@@ -52,5 +54,21 @@ public class Configuration {
 
     public void setTags(Map<String, String> tags) {
         this.tags = tags;
+    }
+
+    public boolean isThreadStates() {
+        return threadStates;
+    }
+
+    public void setThreadStates(boolean threadStates) {
+        this.threadStates = threadStates;
+    }
+
+    public boolean isContentionMonitoring() {
+        return contentionMonitoring;
+    }
+
+    public void setContentionMonitoring(boolean contentionMonitoring) {
+        this.contentionMonitoring = contentionMonitoring;
     }
 }

@@ -85,6 +85,11 @@ public class JVMThreadStateRecorder {
         InternalMonitoring internalMonitoring = new InternalMonitoring(influxDbConfiguration);
         internalMonitoring.configureInfluxMeterRegistry();
         if (InternalMonitoring.getInfluxMeterRegistry() != null) {
+            recorders.forEach((id, recorder) -> {
+                if(recorder.getTimer() == null) {
+                    recorder.setTimer();
+                }
+            });
             return "Internal monitoring started";
         } else {
             return "Error: Couldn't start internal monitoring";

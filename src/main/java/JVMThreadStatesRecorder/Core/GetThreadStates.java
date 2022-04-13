@@ -35,25 +35,13 @@ public class GetThreadStates implements Runnable {
             connectByJmxRemote();
         }
 
-        if (InternalMonitoring.getInfluxMeterRegistry() != null) {
-            String task = "";
-            if (getConfiguration().getPid() != null) {
-                task = id + " - " + getConfiguration().getPid();
-            } else {
-                task = id + " - " + getConfiguration().getJmxHost() + ":" + getConfiguration().getJmxPort();
-            }
-            timer = Timer
-                    .builder("time_to_get_thread_states")
-                    .description("Time to get thread states by tasks")
-                    .tags("task", task)
-                    .register(InternalMonitoring.getInfluxMeterRegistry());
-        }
+        setTimer();
     }
 
     public static GetThreadStates createAndStart(Configuration configuration, InfluxDBStorage db, int id) {
         GetThreadStates getThreadStates = new GetThreadStates(configuration, db, id);
 
-        getThreadStates.ts = new ThreadState(getThreadStates.server);
+        getThreadStates.ts = new ThreadState(getThreadStates.server, configuration);
 
         getThreadStates.exec = Executors.newSingleThreadExecutor();
 
@@ -69,7 +57,7 @@ public class GetThreadStates implements Runnable {
         while (isRunning()) {
             long beforeTime = System.currentTimeMillis();
 
-            ArrayList<ThreadStateContainer> threadList = ts.getThreadStates(getConfiguration().getThreadFilter());
+            ArrayList<ThreadStateContainer> threadList = ts.getThreadStates(configuration);
             for (ThreadStateContainer threadListElement : threadList) {
                 if (getConfiguration().getPid() != null) {
 //                    threadListElement.setTag("pid", getConfiguration().getPid());
@@ -116,18 +104,39 @@ public class GetThreadStates implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        InternalMonitoring.getInfluxMeterRegistry().remove(timer);
+        if(timer != null) {
+            InternalMonitoring.getInfluxMeterRegistry().remove(timer);
+        }
 
         getExec().shutdown();
     }
 
-    public void connectByPid() {
+    private void connectByPid() {
         server = mBeanConnection.getServerConnectionByPID(getConfiguration().getPid());
     }
 
-    public void connectByJmxRemote() {
+    private void connectByJmxRemote() {
         server = mBeanConnection.getServerConnectionRemote(getConfiguration().getJmxHost(), getConfiguration().getJmxPort());
+    }
+
+    public void setTimer() {
+        if (InternalMonitoring.getInfluxMeterRegistry() != null) {
+            String task = "";
+            if (getConfiguration().getPid() != null) {
+                task = id + " - " + getConfiguration().getPid();
+            } else {
+                task = id + " - " + getConfiguration().getJmxHost() + ":" + getConfiguration().getJmxPort();
+            }
+            timer = Timer
+                    .builder("time_to_get_thread_states")
+                    .description("Time to get thread states by tasks")
+                    .tags("task", task)
+                    .register(InternalMonitoring.getInfluxMeterRegistry());
+        }
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
     public ExecutorService getExec() {
