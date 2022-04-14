@@ -51,7 +51,7 @@ body:
 response: id of the task that can be used for stopping the task  
 "threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*
 "threadStates":"true" *(true or false. Enable thread states monitoring)*  
-"contentionMonitoring":"true" *(true or false. Enable contention monitoring - blocked count and blocked time)*  
+"contentionMonitoring":"true" *(true or false. Enable contention monitoring, blocked count and blocked time)*  
 "tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*
 
 - #### Start monitoring an application with a pid
@@ -72,7 +72,7 @@ body:
 response: id of the task that can be used for stopping the task  
 "threadFilter":"Example" *(optional, default: all threads, carefull, there could be hundreds of threads)*  
 "threadStates":"true" *(true or false. Enable thread states monitoring)*  
-"contentionMonitoring":"true" *(true or false. Enable contention monitoring - blocked count and blocked time)*  
+"contentionMonitoring":"true" *(true or false. Enable contention monitoring, blocked count and blocked time)*  
 "tags":{....} *(optional, additional tags for enriching data in the InfluxDB)*
 
 - #### Stop the task with an id
@@ -96,7 +96,7 @@ GET /dbconfig
 
 - #### Start internal monitoring
 GET /internal-monitoring  
-Shows time in ms. which is spent on collecting thread states, grouped by task
+Shows time in ms. which is spent on collecting thread states, grouped by a task
 
 ## Grafana configuration
 - #### Ready to use dashboard
@@ -112,8 +112,16 @@ Tested with Grafana 8.4.3
 ![image](https://user-images.githubusercontent.com/79479018/160242159-ab79b34a-6213-4728-ab64-8193456e6795.png)
 
 
+## Contention monitoring  
+Shows total number of times that a thread blocked to enter or reenter a monitor and time that a thread has blocked to enter or reenter a monitor  
+:chart_with_upwards_trend: [JVM_Thread_States_Dashboard.json](JVM_Thread_States_Dashboard.json)  
+
+![image](https://user-images.githubusercontent.com/79479018/163212981-40871567-2c82-4702-9783-2cad8058ea6d.png)  
+
+
+
 ## Internal monitoring
-Shows time in ms. which is spent on collecting thread states, grouped by task   
+Shows time in ms. which is spent on collecting thread states, grouped by a task   
 :chart_with_upwards_trend: [JVM_Thread_States_Dashboard.json](JVM_Thread_States_Dashboard.json)
 
 ![image](https://user-images.githubusercontent.com/79479018/161435702-f2e92699-dbb6-47a1-9018-81fa01719538.png)  
