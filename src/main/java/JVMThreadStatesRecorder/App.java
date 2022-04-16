@@ -2,12 +2,12 @@ package JVMThreadStatesRecorder;
 
 import JVMThreadStatesRecorder.Configuration.Configuration;
 import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
-import JVMThreadStatesRecorder.Core.InternalMonitoring;
 import JVMThreadStatesRecorder.Core.JVMThreadStateRecorder;
 import io.javalin.Javalin;
 import io.javalin.http.ContentType;
 import io.javalin.http.HttpCode;
 import org.eclipse.jetty.server.Connector;
+
 
 public class App {
     private static Javalin app;
@@ -126,4 +126,5 @@ public class App {
     public static Connector[] getConnectors() {
         return  app.jettyServer().server().getConnectors();
     }
+
 }

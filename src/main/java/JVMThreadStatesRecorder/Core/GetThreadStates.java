@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 public class GetThreadStates implements Runnable {
@@ -43,7 +44,7 @@ public class GetThreadStates implements Runnable {
 
         getThreadStates.ts = new ThreadState(getThreadStates.server, configuration);
 
-        getThreadStates.exec = Executors.newSingleThreadExecutor();
+        getThreadStates.exec = Executors.newSingleThreadExecutor(new NamedThreadFactory(id));
 
         getThreadStates.exec.execute(getThreadStates);
 
@@ -149,6 +150,18 @@ public class GetThreadStates implements Runnable {
 
     public int getId() {
         return id;
+    }
+
+    static class NamedThreadFactory implements ThreadFactory {
+        private int id;
+
+        NamedThreadFactory(int id) {
+            this.id = id;
+        }
+
+        public Thread newThread(Runnable r) {
+            return new Thread(r, "JVMThreadStatesRecorder-" + id);
+        }
     }
 
 //    private Point getInfluxDbPoint(ThreadStateContainer threadStateContainer) {
