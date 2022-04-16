@@ -116,8 +116,9 @@ Tested with Grafana 8.4.3
 Shows total number of times that a thread blocked to enter or reenter a monitor and time that a thread has blocked to enter or reenter a monitor  
 :chart_with_upwards_trend: [JVM_Thread_States_Dashboard.json](JVM_Thread_States_Dashboard.json)  
 
-![image](https://user-images.githubusercontent.com/79479018/163212981-40871567-2c82-4702-9783-2cad8058ea6d.png)  
+![image](https://user-images.githubusercontent.com/79479018/163650558-d488a2da-b4ea-44e7-b107-bdb8ac77e477.png)    
 
+![image](https://user-images.githubusercontent.com/79479018/163650616-1844ce9c-b62e-4bc9-826c-2a6590c84639.png)    
 
 
 ## Internal monitoring
