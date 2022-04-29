@@ -1,4 +1,41 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_INFLUXDB",
+      "label": "InfluxDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.4.3"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "state-timeline",
+      "name": "State timeline",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -21,8 +58,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 15,
-  "iteration": 1649861772857,
+  "id": null,
+  "iteration": 1651239123845,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -42,7 +79,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_INFLUXDB}"
       },
       "description": "",
       "fieldConfig": {
@@ -130,7 +167,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_INFLUXDB}"
           },
           "groupBy": [
             {
@@ -186,7 +223,7 @@
           ]
         }
       ],
-      "title": "Thread States :: TASK ID $TaskID_Connection_preferences",
+      "title": "Thread States | TASK ID $TaskID_Connection_preferences",
       "type": "state-timeline"
     },
     {
@@ -205,7 +242,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -284,7 +321,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_INFLUXDB}"
           },
           "groupBy": [
             {
@@ -340,13 +377,142 @@
           ]
         }
       ],
-      "title": "Blocked count :: TASK ID $TaskID_Connection_preferences",
+      "title": "Blocked count | TASK ID $TaskID_Connection_preferences",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_INFLUXDB}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "alias": "All",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "thread_states",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "blockedCount"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "task",
+              "operator": "=~",
+              "value": "/^$TaskID_Connection_preferences$/"
+            }
+          ]
+        }
+      ],
+      "title": "Blocked count All | TASK ID $TaskID_Connection_preferences",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
       },
       "description": "",
       "fieldConfig": {
@@ -404,7 +570,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 34
       },
       "id": 11,
       "options": {
@@ -427,7 +593,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_INFLUXDB}"
           },
           "groupBy": [
             {
@@ -483,7 +649,138 @@
           ]
         }
       ],
-      "title": "Blocked time :: TASK ID $TaskID_Connection_preferences",
+      "title": "Blocked time | TASK ID $TaskID_Connection_preferences",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 44
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "alias": "All",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "thread_states",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "blockedTime"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "task",
+              "operator": "=~",
+              "value": "/^$TaskID_Connection_preferences$/"
+            }
+          ]
+        }
+      ],
+      "title": "Blocked time All | TASK ID $TaskID_Connection_preferences",
       "type": "timeseries"
     },
     {
@@ -492,7 +789,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 54
       },
       "id": 6,
       "panels": [],
@@ -502,7 +799,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -559,7 +856,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 35
+        "y": 55
       },
       "id": 8,
       "options": {
@@ -581,7 +878,7 @@
           "alias": "Task ID $tag_task",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_INFLUXDB}"
           },
           "groupBy": [
             {
@@ -638,8 +935,8 @@
       {
         "current": {
           "selected": true,
-          "text": "InfluxDB_jvmthreadstatesrecorder",
-          "value": "InfluxDB_jvmthreadstatesrecorder"
+          "text": "InfluxDB",
+          "value": "InfluxDB"
         },
         "hide": 0,
         "includeAll": false,
@@ -654,14 +951,10 @@
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "thread_states",
-          "value": "thread_states"
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "${data_source}"
+          "uid": "${DS_INFLUXDB}"
         },
         "definition": "show measurements",
         "hide": 0,
@@ -677,14 +970,10 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "1 - 127.0.0.1:9010",
-          "value": "1 - 127.0.0.1:9010"
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "${data_source}"
+          "uid": "${DS_INFLUXDB}"
         },
         "definition": "select DISTINCT(\"task\") from (select \"task\", \"state\",\"blockedCount\" from $measurement WHERE $timeFilter)",
         "hide": 0,
@@ -702,13 +991,13 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "JVM Thread States",
   "uid": "40pTXx8nz",
-  "version": 15,
+  "version": 17,
   "weekStart": ""
 }

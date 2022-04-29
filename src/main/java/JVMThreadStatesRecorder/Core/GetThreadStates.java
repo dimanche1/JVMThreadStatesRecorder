@@ -6,6 +6,8 @@ import io.micrometer.core.instrument.Timer;
 
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,16 +58,13 @@ public class GetThreadStates implements Runnable {
         setRunning(true);
 
         while (isRunning()) {
-            long beforeTime = System.currentTimeMillis();
+            Instant beforeTime = Instant.now();
 
             ArrayList<ThreadStateContainer> threadList = ts.getThreadStates(configuration);
             for (ThreadStateContainer threadListElement : threadList) {
                 if (getConfiguration().getPid() != null) {
-//                    threadListElement.setTag("pid", getConfiguration().getPid());
                     threadListElement.setTag("task", id + " - " + getConfiguration().getPid());
                 } else {
-//                    threadListElement.setTag("jmx_host", getConfiguration().getJmxHost());
-//                    threadListElement.setTag("jmx_port", String.valueOf(getConfiguration().getJmxPort()));
                     threadListElement.setTag("task", id + " - " + getConfiguration().getJmxHost() + ":" + getConfiguration().getJmxPort());
                 }
 
@@ -74,8 +73,9 @@ public class GetThreadStates implements Runnable {
                 db.write(threadListElement);
             }
             try {
-                long afterTime = System.currentTimeMillis();
-                long gapTime = afterTime - beforeTime;
+                Instant afterTime = Instant.now();
+                long gapTime = Duration.between(beforeTime, afterTime).toMillis();
+
                 if (timer != null) {
                     timer.record(gapTime, TimeUnit.MILLISECONDS);
                 }
