@@ -1,4 +1,31 @@
 {
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.4.3"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "state-timeline",
+      "name": "State timeline",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -21,8 +48,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 15,
-  "iteration": 1651242627080,
+  "id": null,
+  "iteration": 1651347875567,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -42,7 +69,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_JVMTHREADSTATESRECORDER}"
       },
       "description": "",
       "fieldConfig": {
@@ -130,7 +157,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_JVMTHREADSTATESRECORDER}"
           },
           "groupBy": [
             {
@@ -205,7 +232,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_JVMTHREADSTATESRECORDER}"
       },
       "fieldConfig": {
         "defaults": {
@@ -284,7 +311,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_JVMTHREADSTATESRECORDER}"
           },
           "groupBy": [
             {
@@ -346,7 +373,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_JVMTHREADSTATESRECORDER}"
       },
       "fieldConfig": {
         "defaults": {
@@ -425,7 +452,7 @@
           "alias": "All",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_JVMTHREADSTATESRECORDER}"
           },
           "groupBy": [
             {
@@ -475,7 +502,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_JVMTHREADSTATESRECORDER}"
       },
       "description": "",
       "fieldConfig": {
@@ -556,7 +583,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_JVMTHREADSTATESRECORDER}"
           },
           "groupBy": [
             {
@@ -618,7 +645,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_JVMTHREADSTATESRECORDER}"
       },
       "description": "",
       "fieldConfig": {
@@ -699,7 +726,7 @@
           "alias": "All",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_JVMTHREADSTATESRECORDER}"
           },
           "groupBy": [
             {
@@ -762,7 +789,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${data_source}"
+        "uid": "${DS_JVMTHREADSTATESRECORDER}"
       },
       "fieldConfig": {
         "defaults": {
@@ -841,7 +868,7 @@
           "alias": "Task ID $tag_task",
           "datasource": {
             "type": "influxdb",
-            "uid": "${data_source}"
+            "uid": "${DS_JVMTHREADSTATESRECORDER}"
           },
           "groupBy": [
             {
@@ -897,9 +924,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "InfluxDB",
-          "value": "InfluxDB"
+          "selected": true,
+          "text": "JVMThreadStatesRecorder",
+          "value": "JVMThreadStatesRecorder"
         },
         "hide": 0,
         "includeAll": false,
@@ -914,14 +941,10 @@
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "thread_states",
-          "value": "thread_states"
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "${data_source}"
+          "uid": "${DS_JVMTHREADSTATESRECORDER}"
         },
         "definition": "show measurements",
         "hide": 0,
@@ -937,15 +960,10 @@
         "type": "query"
       },
       {
-        "current": {
-          "isNone": true,
-          "selected": false,
-          "text": "None",
-          "value": ""
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "${data_source}"
+          "uid": "${DS_JVMTHREADSTATESRECORDER}"
         },
         "definition": "select DISTINCT(\"task\") from (select \"task\", \"state\",\"blockedCount\" from $measurement WHERE $timeFilter)",
         "hide": 0,
@@ -963,7 +981,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
