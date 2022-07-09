@@ -59,7 +59,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1657372454914,
+  "iteration": 1657373639450,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -991,13 +991,13 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "JVM Thread States 2312eqwe",
+  "title": "JVM Thread States",
   "uid": "40pTXx8NQ",
-  "version": 2,
+  "version": 5,
   "weekStart": ""
 }
