@@ -1,6 +1,6 @@
 apiVersion: 1
 datasources:
-  - name: JVMThreadStatesRecorder
+  - name: data_source
     type: influxdb
     access: proxy
     database: JVMThreadStatesRecorder
