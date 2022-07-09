@@ -1,8 +1,8 @@
 package JVMThreadStatesRecorder;
 
-import JVMThreadStatesRecorder.Configuration.Configuration;
-import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
-import JVMThreadStatesRecorder.Core.JVMThreadStateRecorder;
+import JVMThreadStatesRecorder.configuration.Configuration;
+import JVMThreadStatesRecorder.configuration.InfluxDbConfiguration;
+import JVMThreadStatesRecorder.core.JVMThreadStateRecorder;
 import io.javalin.Javalin;
 import io.javalin.http.ContentType;
 import io.javalin.http.HttpCode;

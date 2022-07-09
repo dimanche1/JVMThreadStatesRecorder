@@ -1,8 +1,7 @@
-package JVMThreadStatesRecorder.Core;
+package JVMThreadStatesRecorder.core;
 
-import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
+import JVMThreadStatesRecorder.configuration.InfluxDbConfiguration;
 import io.micrometer.core.instrument.Clock;
-import io.micrometer.core.instrument.binder.jetty.JettyConnectionMetrics;
 import io.micrometer.core.instrument.binder.jvm.*;
 import io.micrometer.core.instrument.binder.system.FileDescriptorMetrics;
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics;
@@ -11,7 +10,7 @@ import io.micrometer.influx.InfluxConfig;
 import io.micrometer.influx.InfluxMeterRegistry;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
-import org.eclipse.jetty.server.Connector;
+
 import java.time.Duration;
 
 public class InternalMonitoring {

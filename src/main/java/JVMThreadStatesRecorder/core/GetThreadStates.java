@@ -1,7 +1,7 @@
-package JVMThreadStatesRecorder.Core;
+package JVMThreadStatesRecorder.core;
 
-import JVMThreadStatesRecorder.Configuration.Configuration;
-import JVMThreadStatesRecorder.Storage.InfluxDBStorage;
+import JVMThreadStatesRecorder.configuration.Configuration;
+import JVMThreadStatesRecorder.storage.InfluxDBStorage;
 import io.micrometer.core.instrument.Timer;
 
 import javax.management.MBeanServerConnection;
@@ -19,7 +19,7 @@ public class GetThreadStates implements Runnable {
     private MBeanConnection mBeanConnection = new MBeanConnection();
     private MBeanServerConnection server;
     private Configuration configuration;
-    private boolean isRunning = false;
+    private volatile boolean isRunning = false;
     private InfluxDBStorage db;
     private  ThreadState ts;
     private ExecutorService exec;

@@ -1,4 +1,4 @@
-package JVMThreadStatesRecorder.Configuration;
+package JVMThreadStatesRecorder.configuration;
 
 public class InfluxDbConfiguration {
     private String influxdbUrl;

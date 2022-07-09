@@ -1,6 +1,6 @@
-package JVMThreadStatesRecorder.Core;
+package JVMThreadStatesRecorder.core;
 
-import JVMThreadStatesRecorder.Configuration.Configuration;
+import JVMThreadStatesRecorder.configuration.Configuration;
 
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class ThreadState {
 //        }
 
         long[] tids = tmbean.getAllThreadIds();
-        ThreadInfo[] tinfos = tmbean.getThreadInfo(tids);
+        ThreadInfo[] tinfos = tmbean.getThreadInfo(tids,true, false);
         ArrayList<ThreadStateContainer> tsc = new ArrayList<ThreadStateContainer>();
 
         for (ThreadInfo ti : tinfos) {
@@ -69,6 +69,7 @@ public class ThreadState {
                     threadStateContainer.setField("blockedCount", ti.getBlockedCount());
                     threadStateContainer.setField("blockedTime", ti.getBlockedTime());
                 }
+
                 tsc.add(threadStateContainer);
             }
         }

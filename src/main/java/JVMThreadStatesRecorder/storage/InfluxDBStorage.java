@@ -1,7 +1,7 @@
-package JVMThreadStatesRecorder.Storage;
+package JVMThreadStatesRecorder.storage;
 
-import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
-import JVMThreadStatesRecorder.Core.ThreadStateContainer;
+import JVMThreadStatesRecorder.configuration.InfluxDbConfiguration;
+import JVMThreadStatesRecorder.core.ThreadStateContainer;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBException;
@@ -54,6 +54,21 @@ public class InfluxDBStorage {
 
         try {
             influxDB.write(Point.measurement(influxDbConfiguration.getInfluxdbMeasurement())
+                    .time(threadStateContainer.getTime(), TimeUnit.MILLISECONDS)
+                    .tag(threadStateContainer.getTags())
+                    .fields(threadStateContainer.getFields())
+                    .build());
+        } catch (InfluxDBIOException ie) {
+            System.out.println(ie);
+            connect();
+        }
+    }
+
+    public void write(ThreadStateContainer threadStateContainer, String measurement) {
+        if (influxDB == null) connect();
+
+        try {
+            influxDB.write(Point.measurement(measurement)
                     .time(threadStateContainer.getTime(), TimeUnit.MILLISECONDS)
                     .tag(threadStateContainer.getTags())
                     .fields(threadStateContainer.getFields())

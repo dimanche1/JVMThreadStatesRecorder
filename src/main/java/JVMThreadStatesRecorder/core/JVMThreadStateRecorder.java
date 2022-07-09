@@ -1,8 +1,8 @@
-package JVMThreadStatesRecorder.Core;
+package JVMThreadStatesRecorder.core;
 
-import JVMThreadStatesRecorder.Configuration.Configuration;
-import JVMThreadStatesRecorder.Configuration.InfluxDbConfiguration;
-import JVMThreadStatesRecorder.Storage.InfluxDBStorage;
+import JVMThreadStatesRecorder.configuration.Configuration;
+import JVMThreadStatesRecorder.configuration.InfluxDbConfiguration;
+import JVMThreadStatesRecorder.storage.InfluxDBStorage;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
