@@ -22,6 +22,12 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+  jvmthreadstatesrecorder:
+    build: .
+    depends_on:
+      - influxdb
+    network_mode: host
+
 volumes:
   influxdb-storage:
   grafana-storage:
