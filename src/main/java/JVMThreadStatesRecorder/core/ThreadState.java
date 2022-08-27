@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static java.lang.management.ManagementFactory.THREAD_MXBEAN_NAME;
 import static java.lang.management.ManagementFactory.newPlatformMXBeanProxy;
@@ -42,7 +44,8 @@ public class ThreadState {
 
         long[] tids = tmbean.getAllThreadIds();
         ThreadInfo[] tinfos = tmbean.getThreadInfo(tids,true, false);
-        ArrayList<ThreadStateContainer> tsc = new ArrayList<ThreadStateContainer>();
+//        ArrayList<ThreadStateContainer> tsc = new ArrayList<ThreadStateContainer>();
+         Map<Long, ThreadStateContainer> tsc_m = new LinkedHashMap<>();
 
         for (ThreadInfo ti : tinfos) {
             if (ti == null) continue;
@@ -69,10 +72,33 @@ public class ThreadState {
                     threadStateContainer.setField("blockedCount", ti.getBlockedCount());
                     threadStateContainer.setField("blockedTime", ti.getBlockedTime());
                 }
-
-                tsc.add(threadStateContainer);
+                tsc_m.put(ti.getThreadId(), threadStateContainer);
+//                tsc.add(threadStateContainer);
             }
         }
+
+        long[] threadIds = tmbean.findDeadlockedThreads();
+
+        if (threadIds != null) {
+            ThreadInfo[] infos = tmbean.getThreadInfo(threadIds, Integer.MAX_VALUE);
+            for (ThreadInfo info : infos) {
+                if(tsc_m.get(info.getThreadId()) != null)  {
+                    StringBuilder sb = new StringBuilder();
+                    StackTraceElement[] stack = info.getStackTrace();
+                    sb.append("\tlock owner: " + info.getLockOwnerName() + " @ id: " + info.getLockOwnerId() + "\n");
+                    sb.append("\tlock name: " + info.getLockName() + "\n");
+                    sb.append("\tstacktrace:\n");
+
+                    for (StackTraceElement elem : stack) {
+                        sb.append("\t" + elem + "\n");
+                    }
+
+                    tsc_m.get(info.getThreadId()).setField("stack", sb.toString());
+                    tsc_m.get(info.getThreadId()).setField("state", "7");
+                }
+            }
+        }
+        ArrayList<ThreadStateContainer> tsc = new ArrayList<ThreadStateContainer>(tsc_m.values());
         return tsc;
     }
 
