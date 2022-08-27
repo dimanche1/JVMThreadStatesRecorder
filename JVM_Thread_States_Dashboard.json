@@ -708,8 +708,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -855,8 +854,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1014,8 +1012,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1145,24 +1142,6 @@
         "skipUrlSync": false,
         "sort": 3,
         "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "JVMThreadStatesRecorder",
-          "value": "JVMThreadStatesRecorder"
-        },
-        "hide": 2,
-        "includeAll": false,
-        "multi": false,
-        "name": "JVMThreadStatesRecorder",
-        "options": [],
-        "query": "influxdb",
-        "queryValue": "",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "type": "datasource"
       }
     ]
   },
@@ -1174,6 +1153,6 @@
   "timezone": "",
   "title": "JVM Thread States",
   "uid": "40pTXx8NQ",
-  "version": 63,
+  "version": 65,
   "weekStart": ""
 }
