@@ -81,7 +81,20 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "bolt",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Start Internal monitoring",
+      "tooltip": "",
+      "type": "link",
+      "url": "http://localhost:7080/internal-monitoring"
+    }
+  ],
   "liveNow": false,
   "panels": [
     {
